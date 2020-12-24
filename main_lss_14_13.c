@@ -106,7 +106,7 @@ void writeOutputData(char *outputFile, int n, const double *X, int result)
     {
         fprintf(out, "%d\n", n);
         for (i = 0; i < n; i++)
-            fprintf(out, "%1.12lf\n", *(X + i));
+            fprintf(out, "%1.9lf\n", *(X + i));
     }
 }
 

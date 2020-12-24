@@ -50,7 +50,6 @@ int lss_14_13(int n, double *A, double *B, double *X, double *tmp)
         for (k = 0; k < i; k++)
             sum += A[k * n + i] * A[k * n + i] * D[k];
         D[i] = sign(A[i * n + i] - sum);
-        printf("D[i] = %lf ", D[i]);
         if (D[i] == 0)
         {
             if (fl_e) printf("Error! Matrix is not symmetric!\n");
