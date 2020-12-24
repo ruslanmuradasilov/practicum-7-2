@@ -50,6 +50,7 @@ int lss_14_13(int n, double *A, double *B, double *X, double *tmp)
         for (k = 0; k < i; k++)
             sum += A[k * n + i] * A[k * n + i] * D[k];
         D[i] = sign(A[i * n + i] - sum);
+        printf("D[i] = %lf ", D[i]);
         if (D[i] == 0)
         {
             if (fl_e) printf("Error! Matrix is not symmetric!\n");
@@ -66,11 +67,6 @@ int lss_14_13(int n, double *A, double *B, double *X, double *tmp)
         }
     }
 
-    //превращаем R = A в верхне треугольную матрицу
-    for (i = 1; i < n; i++)
-        for (j = 0; j < i; j++)
-            A[i * n + j] = 0;
-
     if (fl_d) printf("Cholesky decomposition completed successfully!\n");
 
     if (fl_d) printf("Starting to solve linear system...\n");
@@ -80,16 +76,16 @@ int lss_14_13(int n, double *A, double *B, double *X, double *tmp)
     {
         sum = 0;
         for (k = 0; k < i; k++)
-            sum = sum + A[k * n + i] * Y[k];
-        Y[i] = (B[i] - sum) / A[i * n + i];
+            sum = sum + A[k * n + i] * Y[k] * D[k];
+        Y[i] = (B[i] - sum) / (A[i * n + i] * D[i]);
     }
     //решаем RDX = Y
     for (i = n - 1; i >= 0; i--)
     {
         sum = 0;
         for (k = i + 1; k < n; k++)
-            sum = sum + A[i * n + k] * X[k] * D[k];
-        X[i] = (Y[i] - sum) / (A[i * n + i] * D[i]);
+            sum = sum + A[i * n + k] * X[k];
+        X[i] = (Y[i] - sum) / A[i * n + i];
     }
 
     if (fl_d) printf("Linear system solved successfully!\n");

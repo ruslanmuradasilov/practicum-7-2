@@ -106,7 +106,7 @@ void writeOutputData(char *outputFile, int n, const double *X, int result)
     {
         fprintf(out, "%d\n", n);
         for (i = 0; i < n; i++)
-            fprintf(out, "%1.9lf\n", *(X + i));
+            fprintf(out, "%1.12lf\n", *(X + i));
     }
 }
 
@@ -140,6 +140,7 @@ int main(int argc, char *argv[])
     double *A, *B, *X, *tmp;
     char *inputFile = "lss_14_13_in.txt";
     char *outputFile = "lss_14_13_out.txt";
+    clock_t start, end;
 
     switch (validateParameters(argc, argv))
     {
@@ -221,9 +222,9 @@ int main(int argc, char *argv[])
     X = (double *) malloc(n * sizeof(double));
     tmp = malloc((size_t) lss_memsize_14_13(n));
 
-    clock_t start = clock();
+    start = clock();
     rtn = lss_14_13(n, A, B, X, tmp);
-    clock_t end = clock();
+    end = clock();
 
     if (rtn == -1)
         if (fl_e) printf("ValidationError. Matrix is not symmetric.\n");
